@@ -32,9 +32,19 @@ public class Plugin extends JavaPlugin {
             final String firstParameter = StringUtils.stripToEmpty(Iterables.getFirst(Arrays.asList(args), StringUtils.EMPTY));
 
             if ("1".equalsIgnoreCase(firstParameter)) step1(me);
+            if ("2".equalsIgnoreCase(firstParameter)) step2(me);
         }
 
         return true;
+    }
+
+    private void step2(Player player) {
+        Location location = player.getLocation();
+        World world = location.getWorld();
+
+        location.add(-2, 0, 0);
+
+        world.getBlockAt(location).setType(Material.BRICK);
     }
 
     private void step1(Player player) {

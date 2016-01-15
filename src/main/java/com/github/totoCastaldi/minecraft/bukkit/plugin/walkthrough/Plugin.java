@@ -8,6 +8,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Cow;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -33,9 +34,19 @@ public class Plugin extends JavaPlugin {
 
             if ("1".equalsIgnoreCase(firstParameter)) step1(me);
             if ("2".equalsIgnoreCase(firstParameter)) step2(me);
+            if ("3".equalsIgnoreCase(firstParameter)) step3(me);
         }
 
         return true;
+    }
+
+    private void step3(Player player) {
+        Location location = player.getLocation();
+        World world = location.getWorld();
+
+        Cow cow = world.spawn(player.getLocation(), Cow.class);
+        cow.setCustomName("Toto");
+        cow.setCustomNameVisible(true);
     }
 
     private void step2(Player player) {

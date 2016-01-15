@@ -10,6 +10,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Cow;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -36,9 +38,22 @@ public class Plugin extends JavaPlugin {
             if ("2".equalsIgnoreCase(firstParameter)) step2(me);
             if ("3".equalsIgnoreCase(firstParameter)) step3(me);
             if ("4".equalsIgnoreCase(firstParameter)) step4(me);
+            if ("5".equalsIgnoreCase(firstParameter)) step5(me);
         }
 
         return true;
+    }
+
+    private void step5(Player me) {
+        PlayerInventory inventory = me.getInventory();
+
+        inventory.addItem(new ItemStack(Material.BOOK));
+
+        Integer times = 3;
+
+        for (int i=times;i!=0;i--) {
+            inventory.addItem(new ItemStack(Material.DIAMOND_PICKAXE));
+        }
     }
 
     private void step4(Player player) {

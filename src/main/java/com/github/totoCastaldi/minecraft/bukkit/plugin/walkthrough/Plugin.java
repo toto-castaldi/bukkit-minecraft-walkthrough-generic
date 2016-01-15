@@ -2,10 +2,7 @@ package com.github.totoCastaldi.minecraft.bukkit.plugin.walkthrough;
 
 import com.google.common.collect.Iterables;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Cow;
@@ -39,13 +36,18 @@ public class Plugin extends JavaPlugin {
             if ("3".equalsIgnoreCase(firstParameter)) step3(me);
             if ("4".equalsIgnoreCase(firstParameter)) step4(me);
             if ("5".equalsIgnoreCase(firstParameter)) step5(me);
+            if ("6".equalsIgnoreCase(firstParameter)) step6(me);
         }
 
         return true;
     }
 
-    private void step5(Player me) {
-        PlayerInventory inventory = me.getInventory();
+    private void step6(Player player) {
+        player.playEffect(player.getLocation(), Effect.MOBSPAWNER_FLAMES, null);
+    }
+
+    private void step5(Player player) {
+        PlayerInventory inventory = player.getInventory();
 
         inventory.addItem(new ItemStack(Material.BOOK));
 

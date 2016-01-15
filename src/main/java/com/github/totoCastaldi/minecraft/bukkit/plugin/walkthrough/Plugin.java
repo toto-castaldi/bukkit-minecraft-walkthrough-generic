@@ -4,8 +4,8 @@ import com.google.common.collect.Iterables;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Cow;
@@ -35,9 +35,14 @@ public class Plugin extends JavaPlugin {
             if ("1".equalsIgnoreCase(firstParameter)) step1(me);
             if ("2".equalsIgnoreCase(firstParameter)) step2(me);
             if ("3".equalsIgnoreCase(firstParameter)) step3(me);
+            if ("4".equalsIgnoreCase(firstParameter)) step4(me);
         }
 
         return true;
+    }
+
+    private void step4(Player player) {
+        player.playSound(player.getLocation(), Sound.GHAST_SCREAM,  0.1f, 1.0f);
     }
 
     private void step3(Player player) {

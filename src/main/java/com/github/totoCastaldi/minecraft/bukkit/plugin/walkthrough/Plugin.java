@@ -3,6 +3,7 @@ package com.github.totoCastaldi.minecraft.bukkit.plugin.walkthrough;
 import com.google.common.collect.Iterables;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Cow;
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.BlockIterator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,9 +39,27 @@ public class Plugin extends JavaPlugin {
             if ("4".equalsIgnoreCase(firstParameter)) step4(me);
             if ("5".equalsIgnoreCase(firstParameter)) step5(me);
             if ("6".equalsIgnoreCase(firstParameter)) step6(me);
+            if ("7".equalsIgnoreCase(firstParameter)) step7(me);
         }
 
         return true;
+    }
+
+    private void step7(Player me) {
+        BlockIterator sightItr = new BlockIterator(me, 100);
+
+        boolean found = false;
+
+        while (sightItr.hasNext() && !found) {
+            Block block = sightItr.next();
+            me.playEffect(block.getLocation(), Effect.MOBSPAWNER_FLAMES, null);
+            if (block.getType() != Material.AIR) {
+                block.setType(Material.LAVA);
+                me.playSound(block.getLocation(), Sound.EXPLODE, 1.0f, 0.5f);
+                found = true;
+            }
+        }
+
     }
 
     private void step6(Player player) {

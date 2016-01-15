@@ -6,11 +6,15 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Bat;
 import org.bukkit.entity.Cow;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.BlockIterator;
 
 import java.util.ArrayList;
@@ -40,9 +44,23 @@ public class Plugin extends JavaPlugin {
             if ("5".equalsIgnoreCase(firstParameter)) step5(me);
             if ("6".equalsIgnoreCase(firstParameter)) step6(me);
             if ("7".equalsIgnoreCase(firstParameter)) step7(me);
+            if ("8".equalsIgnoreCase(firstParameter)) step8(me);
         }
 
         return true;
+    }
+
+    private void step8(Player player) {
+        Location loc = player.getLocation();
+        loc.setY(loc.getY() + 5);
+        Bat bat = player.getWorld().spawn(loc, Bat.class);
+        Creeper creeper = player.getWorld().spawn(loc, Creeper.class);
+        bat.setPassenger(creeper);
+        PotionEffect potion = new PotionEffect(
+                PotionEffectType.INVISIBILITY,
+                Integer.MAX_VALUE,
+                1);
+        bat.addPotionEffect(potion);
     }
 
     private void step7(Player me) {

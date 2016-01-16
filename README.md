@@ -71,6 +71,12 @@ flying creeper
 
 ![step 8](http://toto-castaldi.github.io/cdn/images/bukkit-walkthrough-flying-creeper.png "step 8")
 
+#### STEP 9
+
+do something (in the example print a message) where the user join the game
+
+[![IMAGE ALT TEXT](https://i.ytimg.com/vi/7nT9hO4fKLA/mqdefault.jpg)](https://youtu.be/7nT9hO4fKLA "player join event video")
+
 #### greetings :
 
 > Written with [StackEdit](https://stackedit.io/).

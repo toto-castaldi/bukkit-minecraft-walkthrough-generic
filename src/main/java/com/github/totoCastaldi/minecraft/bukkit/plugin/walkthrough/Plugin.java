@@ -10,8 +10,12 @@ import org.bukkit.entity.Bat;
 import org.bukkit.entity.Cow;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -135,8 +139,28 @@ public class Plugin extends JavaPlugin {
         player.sendMessage(locationMessage);
     }
 
+    public class PlayerEventListener implements Listener {
+        PlayerEventListener(Plugin plugin) {
+            Server server = plugin.getServer();
+            PluginManager pluginManager = server.getPluginManager();
+            pluginManager.registerEvents(this, plugin);
+        }
+
+        @EventHandler
+        public void onPlayerJoinEvent(PlayerJoinEvent playerJoinEvent) {
+            Player player = playerJoinEvent.getPlayer();
+            String playerListName = player.getPlayerListName();
+            String name = player.getName();
+            String displayName = player.getDisplayName();
+
+            System.out.println("playerJoinEvent. playerListName = " + playerListName + ", name = " + name + ", displayName = " + displayName);
+            player.sendMessage("Welcome this is the Awesome Plugin!!!!");
+        }
+    }
+
     public void onEnable() {
         System.out.println("enEnable");
+        new PlayerEventListener(this);
     }
 
 

@@ -6,10 +6,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Bat;
-import org.bukkit.entity.Cow;
-import org.bukkit.entity.Creeper;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -20,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.BlockIterator;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,9 +47,20 @@ public class Plugin extends JavaPlugin {
             if ("6".equalsIgnoreCase(firstParameter)) step6(me);
             if ("7".equalsIgnoreCase(firstParameter)) step7(me);
             if ("8".equalsIgnoreCase(firstParameter)) step8(me);
+            if ("10".equalsIgnoreCase(firstParameter)) step10(me);
         }
 
         return true;
+    }
+
+    private void step10(Player player) {
+        Location location = player.getEyeLocation();
+
+        player.sendMessage(ChatColor.DARK_AQUA + "BOOM!");
+
+        TNTPrimed tnt = player.getWorld().spawn(location, TNTPrimed.class);
+        Vector v = location.getDirection().multiply(2);
+        tnt.setVelocity(v);
     }
 
     private void step8(Player player) {
@@ -114,7 +123,7 @@ public class Plugin extends JavaPlugin {
     }
 
     private void step2(Player player) {
-        Location location = player.getLocation();
+        Location location = player.getEyeLocation();
         World world = location.getWorld();
 
         location.add(-2, 0, 0);

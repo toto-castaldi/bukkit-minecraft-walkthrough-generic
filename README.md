@@ -77,6 +77,13 @@ do something (in the example print a message) where the user join the game
 
 [![IMAGE ALT TEXT](https://i.ytimg.com/vi/7nT9hO4fKLA/mqdefault.jpg)](https://youtu.be/7nT9hO4fKLA "player join event video")
 
+#### STEP 10
+
+throw a tnt primed on the direction of the player
+
+[![IMAGE ALT TEXT](https://i.ytimg.com/vi/02jraEcIzgI/mqdefault.jpg)](https://youtu.be/02jraEcIzgI "throw a tnt primed")
+
+
 #### greetings :
 
 > Written with [StackEdit](https://stackedit.io/).

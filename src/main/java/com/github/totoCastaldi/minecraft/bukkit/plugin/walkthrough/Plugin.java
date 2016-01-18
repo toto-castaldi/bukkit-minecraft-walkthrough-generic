@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -16,14 +17,17 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scoreboard.*;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Plugin extends JavaPlugin {
+
+    private Scoreboard handScoreBoard;
+    private Objective objective;
+    private Map<OfflinePlayer, Score> scores = new HashMap<OfflinePlayer, Score>();
 
     public boolean onCommand(
             CommandSender sender,
@@ -161,14 +165,40 @@ public class Plugin extends JavaPlugin {
             String playerListName = player.getPlayerListName();
             String name = player.getName();
             String displayName = player.getDisplayName();
+            Server server = player.getServer();
 
             System.out.println("playerJoinEvent. playerListName = " + playerListName + ", name = " + name + ", displayName = " + displayName);
             player.sendMessage("Welcome this is the Awesome Plugin!!!!");
+
+            player.setScoreboard(handScoreBoard);
+
+            if (scores.get(player) == null) {
+                Score score = objective.getScore(ChatColor.GREEN + "Number:");
+                scores.put(player, score);
+            }
+        }
+
+        @EventHandler
+        public void onPlayerAnimationEvent (PlayerAnimationEvent playerAnimationEvent) {
+            Player player = playerAnimationEvent.getPlayer();
+
+            Score score = scores.get(player);
+            score.setScore(score.getScore() + 1);
         }
     }
 
     public void onEnable() {
         System.out.println("enEnable");
+
+        Server server = this.getServer();
+        ScoreboardManager scoreboardManager = server.getScoreboardManager();
+
+        handScoreBoard = scoreboardManager.getNewScoreboard();
+
+        objective = handScoreBoard.registerNewObjective("test", "dummy");
+        objective.setDisplayName("Hands");
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+
         new PlayerEventListener(this);
     }
 

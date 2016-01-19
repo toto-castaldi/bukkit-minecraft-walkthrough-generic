@@ -28,6 +28,7 @@ public class Plugin extends JavaPlugin {
     private Scoreboard handScoreBoard;
     private Objective objective;
     private Map<OfflinePlayer, Score> scores = new HashMap<OfflinePlayer, Score>();
+	private Map<UUID, Boolean> step11PlayerStatus = new HashMap<UUID, Boolean>();
 
     public boolean onCommand(
             CommandSender sender,
@@ -42,6 +43,7 @@ public class Plugin extends JavaPlugin {
 
         if (StringUtils.equalsIgnoreCase("step", commandLabel)) {
             final String firstParameter = StringUtils.stripToEmpty(Iterables.getFirst(Arrays.asList(args), StringUtils.EMPTY));
+            final String secondParameter = StringUtils.stripToEmpty(Iterables.get(Arrays.asList(args), 1, StringUtils.EMPTY));
 
             if ("1".equalsIgnoreCase(firstParameter)) step1(me);
             if ("2".equalsIgnoreCase(firstParameter)) step2(me);
@@ -52,9 +54,14 @@ public class Plugin extends JavaPlugin {
             if ("7".equalsIgnoreCase(firstParameter)) step7(me);
             if ("8".equalsIgnoreCase(firstParameter)) step8(me);
             if ("10".equalsIgnoreCase(firstParameter)) step10(me);
+            if ("12".equalsIgnoreCase(firstParameter)) step12(me, "start".equalsIgnoreCase(secondParameter));
         }
 
         return true;
+    }
+
+    private void step12(Player player, Boolean start) {
+        step11PlayerStatus.put(player.getUniqueId(), start);
     }
 
     private void step10(Player player) {
@@ -190,7 +197,7 @@ public class Plugin extends JavaPlugin {
     public void onEnable() {
         System.out.println("enEnable");
 
-        Server server = this.getServer();
+        final Server server = this.getServer();
         ScoreboardManager scoreboardManager = server.getScoreboardManager();
 
         handScoreBoard = scoreboardManager.getNewScoreboard();
@@ -200,6 +207,19 @@ public class Plugin extends JavaPlugin {
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         new PlayerEventListener(this);
+
+		server.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+
+            public void run() {
+                Set<Map.Entry<UUID, Boolean>> entries = step11PlayerStatus.entrySet();
+                for (Map.Entry<UUID, Boolean> entry : entries) {
+                    if (entry.getValue()) {
+                        final Player player = server.getPlayer(entry.getKey());
+                        player.getWorld().spawn(player.getLocation().add(0,5,0), TNTPrimed.class);
+                    }
+                }
+            }
+        }, 0L, 60L * 3);// 60 L == 3 sec, 20 ticks == 1 sec
     }
 
 
